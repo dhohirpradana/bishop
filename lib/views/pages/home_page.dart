@@ -1,4 +1,5 @@
 import 'package:bishop/controllers/product_controller.dart';
+import 'package:bishop/statics/app_color.dart';
 import 'package:bishop/views/widgets/home/card_product.dart';
 import 'package:bishop/views/widgets/home/products_loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColor.bodyColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: Container(
           width: 140,

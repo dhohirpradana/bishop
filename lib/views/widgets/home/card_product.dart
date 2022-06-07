@@ -1,3 +1,5 @@
+import 'package:bishop/controllers/cart_controller.dart';
+import 'package:bishop/models/cart_model.dart';
 import 'package:bishop/models/product_model.dart';
 import 'package:bishop/statics/api.dart';
 import 'package:bishop/views/widgets/home/image_loading_widgets.dart';
@@ -5,11 +7,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../../../statics/string_extension.dart';
 
 class CardProduct extends StatelessWidget {
   final Product product;
-  const CardProduct({Key? key, required this.product}) : super(key: key);
+  CardProduct({Key? key, required this.product}) : super(key: key);
+
+  final _cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,24 +33,26 @@ class CardProduct extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CachedNetworkImage(
-                height: 300.h,
-                width: 400.w,
-                cacheManager: CacheManager(Config("product image cache",
-                    stalePeriod: const Duration(days: 2))),
-                memCacheHeight: 750.h.toInt(),
-                fit: BoxFit.cover,
-                imageUrl: product.defaultPhoto["img_path"] == ""
-                    ? "https://via.placeholder.com/300x400"
-                    : BaseUrl.imagePath + product.defaultPhoto["img_path"],
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    ShimmerLoading(
-                        isLoading: true,
-                        child: SizedBox(
-                          height: 300.h,
-                          width: 400.w,
-                          child: const Card(),
-                        )),
-                errorWidget: (context, url, error) => const Icon(Icons.error)),
+              height: 300.h,
+              width: 400.w,
+              cacheManager: CacheManager(Config("product image cache",
+                  stalePeriod: const Duration(days: 2))),
+              memCacheHeight: 750.h.toInt(),
+              fit: BoxFit.cover,
+              imageUrl: product.defaultPhoto["img_path"] == ""
+                  ? "https://via.placeholder.com/300x400"
+                  : BaseUrl.imagePath + product.defaultPhoto["img_path"],
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  ShimmerLoading(
+                isLoading: true,
+                child: SizedBox(
+                  height: 300.h,
+                  width: 400.w,
+                  child: const Card(),
+                ),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -113,7 +120,10 @@ class CardProduct extends StatelessWidget {
                             const SizedBox(height: 5),
                             InkWell(
                               borderRadius: BorderRadius.circular(10),
-                              onTap: () {},
+                              onTap: () {
+                                _cartController
+                                    .addCart(Cart(product: product, qty: 1));
+                              },
                               child: Container(
                                 padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(

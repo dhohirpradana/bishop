@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class ProductController extends GetxController with StateMixin {
   final _dio = Dio();
   List<Product> products = [];
+
   @override
   void onInit() {
     _fetchProducts();

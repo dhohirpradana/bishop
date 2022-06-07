@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:bishop/models/product_model.dart';
 
 class Cart {
-  final Product product;
-  final int qty;
+  Product product;
+  int qty;
   Cart({
     required this.product,
     required this.qty,
